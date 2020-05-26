@@ -1,4 +1,4 @@
-package com.example.projetmultidisciplinaire_applicovid.ui.slideshow
+package com.example.projetmultidisciplinaire_applicovid.controler.ui.slideshow
 
 import android.os.Bundle
 import android.view.LayoutInflater

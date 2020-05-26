@@ -1,7 +1,8 @@
-package com.example.projetmultidisciplinaire_applicovid
+package com.example.projetmultidisciplinaire_applicovid.controler.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.projetmultidisciplinaire_applicovid.R
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

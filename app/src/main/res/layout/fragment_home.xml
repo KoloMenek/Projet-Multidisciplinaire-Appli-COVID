@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ui.home.HomeFragment"
+    tools:context="com.example.projetmultidisciplinaire_applicovid.controler.ui.home.HomeFragment"
     android:layout_margin="25dp"
     >
 
