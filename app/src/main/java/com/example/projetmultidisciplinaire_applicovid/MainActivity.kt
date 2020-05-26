@@ -8,6 +8,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //I love eating my poop
+        //I want to fuck you Kolomenek, i wanna fuck you so hard
     }
 }
