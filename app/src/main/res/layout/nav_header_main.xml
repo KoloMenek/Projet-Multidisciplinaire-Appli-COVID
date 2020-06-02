@@ -12,7 +12,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="154dp"
+        android:layout_width="115dp"
         android:layout_height="108dp"
         android:src="@drawable/profil"
         android:contentDescription="@string/nav_header_desc"
