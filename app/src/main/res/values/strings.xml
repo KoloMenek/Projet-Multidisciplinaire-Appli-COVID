@@ -7,9 +7,10 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">Evolution de l\'épidémie</string>
+    <string name="menu_gallery">Comment se protéger</string>
+    <string name="menu_slideshow">Que faire en cas d\'infection</string>
+    <string name="menu_report_bug">Rapporter un bug</string>
 
     <string name="home_second">Home Second</string>
     <string name="title_activity_maps">Map</string>

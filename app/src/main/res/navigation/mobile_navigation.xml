@@ -40,4 +40,9 @@
         android:name="com.example.projetmultidisciplinaire_applicovid.controler.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_report_bug"
+        android:name="com.example.projetmultidisciplinaire_applicovid.controler.ui.reportbug.ReportBugFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
 </navigation>
