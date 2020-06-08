@@ -52,6 +52,23 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
         mValidateBtn = findViewById(R.id.validate_btn)
         editList = listOf<EditText>(mFirstName,mLastName,mBirthPlace,mStreet,mNumber,mZipCode,mCity)
 
+        val accountCreated:Boolean? = getSharedPreferences("UserData", Context.MODE_PRIVATE).getBoolean("accountCreated", false)
+
+        if(!accountCreated!!) {
+            val preferences = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+            mFirstName.setText(preferences.getString("fName", "FirstName"))
+            mLastName.setText(preferences.getString("lName", "LastName"))
+            mBirthPlace.setText(preferences.getString("bPlace", "Birth Place"))
+            mStreet.setText(preferences.getString("street", "Street Name"))
+            mNumber.setText(preferences.getString("num", "Number"))
+            mZipCode.setText(preferences.getString("zipCode", "ZipCode"))
+            mCity.setText(preferences.getString("city", "City"))
+            mYear = preferences.getInt("bYear", 1)
+            mMonth = preferences.getInt("bMonth", 1)
+            mDay = preferences.getInt("bDay", 1)
+            mDateBtn.text = "$mDay/$mMonth/$mYear"
+        }
+
         mDateBtn.setOnClickListener {
             var cal: Calendar = Calendar.getInstance()
             var year = cal.get(Calendar.YEAR)
@@ -89,7 +106,6 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
             editor.putInt("bYear", mYear)
             editor.putInt("bMonth", mMonth)
             editor.putInt("bDay", mDay)
-            editor.putString("bPlace", mBirthPlace.text.toString())
             editor.putBoolean("accountCreated", true)
             editor.apply()
 
