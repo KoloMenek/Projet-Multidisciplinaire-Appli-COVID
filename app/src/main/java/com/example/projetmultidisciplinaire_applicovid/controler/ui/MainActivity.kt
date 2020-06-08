@@ -1,5 +1,7 @@
 package com.example.projetmultidisciplinaire_applicovid.controler.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,6 +23,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val accountCreated:Boolean? = getSharedPreferences("UserData", Context.MODE_PRIVATE).getBoolean("accountCreated", false)
+
+        if(!accountCreated!!) {
+            val newActivity = Intent(this@MainActivity, CreateAccountActivity::class.java)
+            startActivity(newActivity)
+        }
+
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
