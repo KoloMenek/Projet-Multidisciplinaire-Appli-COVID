@@ -21,6 +21,8 @@ import com.example.projetmultidisciplinaire_applicovid.BuildConfig
 import com.example.projetmultidisciplinaire_applicovid.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
@@ -61,7 +63,7 @@ import com.google.android.material.snackbar.Snackbar
  * activity from the notification. The user can also remove location updates directly from the
  * notification. This dismisses the notification and stops the service.
  */
-class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
+class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMapReadyCallback {
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private var myReceiver: MyReceiver? = null
     private var mMap: GoogleMap? = null
@@ -95,6 +97,11 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         super.onCreate(savedInstanceState)
         myReceiver = MyReceiver()
         setContentView(R.layout.activity_maps)
+        loc = Location("")
+
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         // Check that the user hasn't revoked permissions by going to Settings.
         if (Utils.requestingLocationUpdates(this)) {
@@ -314,7 +321,7 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
             mMap!!.moveCamera(CameraUpdateFactory.newLatLng(position))}
     }
 
-    fun onMapReady(googleMap: GoogleMap) {
+    override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         updateUI()
     }
