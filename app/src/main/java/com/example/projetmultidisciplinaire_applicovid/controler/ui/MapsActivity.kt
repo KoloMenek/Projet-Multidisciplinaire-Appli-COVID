@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.*
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Color.argb
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -19,12 +21,8 @@ import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.projetmultidisciplinaire_applicovid.BuildConfig
 import com.example.projetmultidisciplinaire_applicovid.R
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -68,6 +66,11 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
     private var myReceiver: MyReceiver? = null
     private var mMap: GoogleMap? = null
     private lateinit var loc:Location
+    private lateinit var marker : Marker
+    private lateinit var zoom:CameraUpdate
+    private lateinit var center:CameraUpdate
+    private lateinit var adresse:LatLng
+    private lateinit var circle: Circle
 
     // A reference to the service used to get location updates.
     private var mService: LocationUpdatesService? = null
@@ -273,6 +276,7 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
                     Toast.LENGTH_SHORT
                 ).show()
                 loc =location
+                marker.remove()
                 updateUI()
 
             }
@@ -311,19 +315,39 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
         private const val REQUEST_PERMISSIONS_REQUEST_CODE = 34
     }
     fun updateUI(){
+
         if (mMap != null){
             val position = LatLng(loc.latitude,loc.longitude)
-            mMap!!.addMarker(
+            marker = mMap!!.addMarker(
                 MarkerOptions()
                     .position(position)
-                    .title("Marker in Sydney")
+                    .title("Ma position")
             )
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLng(position))}
+            center =CameraUpdateFactory.newLatLng(position)
+            zoom = CameraUpdateFactory.zoomTo(16F)
+            mMap!!.moveCamera(center)
+            mMap!!.animateCamera(zoom)
+
+        }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         updateUI()
+
+        //Cercle de limitation des 3km
+        adresse= LatLng(loc.latitude, loc.longitude)
+        val circleOptions = CircleOptions()
+            .center(adresse)
+            .radius(3000.0) // In meters
+            .strokeColor(Color.BLUE)
+            .fillColor(argb(50,0,0,200))
+
+// Get back the mutable Circle
+        circle = mMap!!.addCircle(circleOptions)
+
+
     }
 
 }
