@@ -67,6 +67,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
             mMonth = preferences.getInt("bMonth", 1)
             mDay = preferences.getInt("bDay", 1)
             mDateBtn.text = "$mDay/$mMonth/$mYear"
+            mValidateBtn.isEnabled = true
         }
 
         mDateBtn.setOnClickListener {
