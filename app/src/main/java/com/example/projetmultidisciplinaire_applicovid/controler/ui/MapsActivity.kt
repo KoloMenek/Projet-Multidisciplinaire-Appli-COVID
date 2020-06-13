@@ -137,6 +137,8 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
         // Restore the state of the buttons when the activity (re)launches.
         setButtonsState(Utils.requestingLocationUpdates(this))
 
+
+
         // Bind to the service. If the service is in foreground mode, this signals to the service
         // that since this activity is in the foreground, the service can exit foreground mode.
         bindService(
@@ -339,8 +341,7 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
         mMap = googleMap
         updateUI()
 
-
-        /*var addresss: List<Address?>
+        var addresss: List<Address?>
         val coder = Geocoder(this)
         var p1: LatLng? = null
 
@@ -351,7 +352,7 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
         var adress:String = "$num,$street,$zipCode,$city"
 
         System.out.println(adress)
-        try {
+
             // May throw an IOException
             addresss = coder.getFromLocationName(adress, 5);
             if (addresss == null) {
@@ -360,12 +361,11 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
             val location = addresss[0]
             p1 = LatLng(location!!.latitude, location!!.longitude)
             var latlngadresse = "$p1"
-            println(latlngadresse)
-        }
-        catch (ex: IOException) {
+            System.out.println(latlngadresse)
 
-            ex.printStackTrace();
-        }*/
+
+
+
 
 
         //Cercle de limitation des 3km
