@@ -16,8 +16,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.projetmultidisciplinaire_applicovid.R
+import com.example.projetmultidisciplinaire_applicovid.controler.ui.CreateAccountActivity
 import com.example.projetmultidisciplinaire_applicovid.controler.ui.MainActivity
 import com.example.projetmultidisciplinaire_applicovid.controler.ui.MapsActivity
+import com.example.projetmultidisciplinaire_applicovid.controler.ui.PdfActivity
 import com.example.projetmultidisciplinaire_applicovid.modele.User
 
 
@@ -26,6 +28,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var mNameInput: EditText;
     private lateinit var mPlayButton: Button;
+    private lateinit var mAttestation: Button;
     private var user: User = User();
     private val REQUEST_QCM: Int = 187
     private lateinit var preferences : SharedPreferences;
@@ -47,6 +50,7 @@ class HomeFragment : Fragment() {
             preferences = activity!!.getPreferences(Context.MODE_PRIVATE) as SharedPreferences
             mNameInput = view.findViewById<EditText>(R.id.activity_main_name_input);
             mPlayButton = view.findViewById<Button>(R.id.activity_main_play_btn);
+            mAttestation = view.findViewById(R.id.activity_main_creerPdf)
             mNameInput.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence,
@@ -78,6 +82,10 @@ class HomeFragment : Fragment() {
                 startActivityForResult(monQCM, REQUEST_QCM)
 
             }
+        mAttestation.setOnClickListener {
+            val newActivity = Intent(activity, PdfActivity::class.java)
+            startActivity(newActivity)
+        }
 
         }
 

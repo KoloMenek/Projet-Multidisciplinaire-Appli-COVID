@@ -63,6 +63,14 @@
         android:text="Entrer"
         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:text="Faire une attestation de sortie"
+        android:id="@+id/activity_main_creerPdf"
+        />
 
 
 </LinearLayout>
