@@ -6,6 +6,8 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Color.argb
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -24,6 +26,7 @@ import com.example.projetmultidisciplinaire_applicovid.R
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
+import java.io.IOException
 
 
 /**
@@ -335,6 +338,35 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         updateUI()
+
+
+        /*var addresss: List<Address?>
+        val coder = Geocoder(this)
+        var p1: LatLng? = null
+
+        var num  = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("num", "errornum")
+        var street = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("street", "errorstreet")
+        var city = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("city", "errorcity")
+        var zipCode = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("zipCode", "errorZIP")
+        var adress:String = "$num,$street,$zipCode,$city"
+
+        System.out.println(adress)
+        try {
+            // May throw an IOException
+            addresss = coder.getFromLocationName(adress, 5);
+            if (addresss == null) {
+                System.out.println("Bruh adresss = null")
+            }
+            val location = addresss[0]
+            p1 = LatLng(location!!.latitude, location!!.longitude)
+            var latlngadresse = "$p1"
+            println(latlngadresse)
+        }
+        catch (ex: IOException) {
+
+            ex.printStackTrace();
+        }*/
+
 
         //Cercle de limitation des 3km
         adresse= LatLng(loc.latitude, loc.longitude)
