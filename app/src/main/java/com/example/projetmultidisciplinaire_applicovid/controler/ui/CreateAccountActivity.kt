@@ -30,9 +30,9 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
     private lateinit var mValidateBtn: Button
     private lateinit var mBottomText: TextView
     private lateinit var mDateSetListener: DatePickerDialog.OnDateSetListener
-    private var mYear:Int = -1
-    private var mMonth:Int = -1
-    private var mDay:Int = -1
+    private var mYear: Int = -1
+    private var mMonth: Int = -1
+    private var mDay: Int = -1
     private var editList = listOf<EditText>()
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -50,11 +50,16 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
         mZipCode = findViewById(R.id.zipCode_edit_txt)
         mCity = findViewById(R.id.city_edit_txt)
         mValidateBtn = findViewById(R.id.validate_btn)
-        editList = listOf<EditText>(mFirstName,mLastName,mBirthPlace,mStreet,mNumber,mZipCode,mCity)
+        editList =
+            listOf<EditText>(mFirstName, mLastName, mBirthPlace, mStreet, mNumber, mZipCode, mCity)
 
-        val accountCreated:Boolean? = getSharedPreferences("UserData", Context.MODE_PRIVATE).getBoolean("accountCreated", false)
+        val accountCreated: Boolean? =
+            getSharedPreferences("UserData", Context.MODE_PRIVATE).getBoolean(
+                "accountCreated",
+                false
+            )
 
-        if(accountCreated!!) {
+        if (accountCreated!!) {
             val preferences = getSharedPreferences("UserData", Context.MODE_PRIVATE)
             mFirstName.setText(preferences.getString("fName", "FirstName"))
             mLastName.setText(preferences.getString("lName", "LastName"))
@@ -76,7 +81,14 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
             var month = cal.get(Calendar.MONTH)
             var day = cal.get(Calendar.DAY_OF_MONTH)
 
-            var dpd:DatePickerDialog = DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth,mDateSetListener, year,month,day)
+            var dpd: DatePickerDialog = DatePickerDialog(
+                this,
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                mDateSetListener,
+                year,
+                month,
+                day
+            )
             dpd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dpd.show()
         }
@@ -90,7 +102,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
                 checkBtn()
             }
 
-        for(e:EditText in editList){
+        for (e: EditText in editList) {
             e.addTextChangedListener(this)
         }
 
@@ -122,16 +134,17 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
     }
+
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun checkEmpty():Boolean {
-        var isEmpty:Boolean = false
-        if(mYear == Calendar.getInstance().get(Calendar.YEAR) || mYear == -1)
+    private fun checkEmpty(): Boolean {
+        var isEmpty: Boolean = false
+        if (mYear == Calendar.getInstance().get(Calendar.YEAR) || mYear == -1)
             return true
-        for(e:EditText in editList){
-            if(e.text.isEmpty())
+        for (e: EditText in editList) {
+            if (e.text.isEmpty())
                 return true
 
         }
@@ -139,9 +152,9 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun checkBtn(){
+    private fun checkBtn() {
         mValidateBtn.isEnabled = !checkEmpty()
-        if(!mValidateBtn.isEnabled)
+        if (!mValidateBtn.isEnabled)
             mBottomText.text = "Veuillez renseigner toutes vos informations..."
         else
             mBottomText.text = ""

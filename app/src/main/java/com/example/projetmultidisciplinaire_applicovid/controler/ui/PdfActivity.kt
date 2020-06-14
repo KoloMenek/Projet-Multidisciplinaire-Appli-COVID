@@ -29,38 +29,40 @@ class PdfActivity : AppCompatActivity() {
     private lateinit var btnJudi: Button
     private lateinit var btnMission: Button
     private val STORAGE_CODE: Int = 100
-    private lateinit var userFn:String
-    private lateinit var userLn:String
-    private lateinit var userBd:String
-    private lateinit var userBdPlace:String
-    private lateinit var userAddress:String
-    private lateinit var userCity:String
-    private var motifTravail:String = " "
-    private var motifCourse:String = " "
-    private var motifSante:String = " "
-    private var motifFamilial:String = " "
-    private var motifQuot:String = " "
-    private var motifJudi:String = " "
-    private var motifMission:String = " "
+    private lateinit var userFn: String
+    private lateinit var userLn: String
+    private lateinit var userBd: String
+    private lateinit var userBdPlace: String
+    private lateinit var userAddress: String
+    private lateinit var userCity: String
+    private var motifTravail: String = " "
+    private var motifCourse: String = " "
+    private var motifSante: String = " "
+    private var motifFamilial: String = " "
+    private var motifQuot: String = " "
+    private var motifJudi: String = " "
+    private var motifMission: String = " "
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun checkPerm(){
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
-            if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE ) == PackageManager.PERMISSION_DENIED){
+    private fun checkPerm() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 //Permission was not granted
-                val permission = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                val permission = arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
                 requestPermissions(permission, STORAGE_CODE)
-            }
-            else{
+            } else {
                 //Permission already granted
                 createPdf()
             }
-        }
-        else{
+        } else {
             //System OS < Marshmallow, call createPDF() method
             createPdf()
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdf)
@@ -77,9 +79,16 @@ class PdfActivity : AppCompatActivity() {
 
         userFn = preferences.getString("fName", "FirstName")!!
         userLn = preferences.getString("lName", "LastName")!!
-        userBd = preferences.getInt("bDay", 1).toString()!! + "/" + preferences.getInt("bMonth", 1).toString()!! + "/" + preferences.getInt("bYear", 1).toString()!!
+        userBd = preferences.getInt("bDay", 1).toString()!! + "/" + preferences.getInt("bMonth", 1)
+            .toString()!! + "/" + preferences.getInt("bYear", 1).toString()!!
         userBdPlace = preferences.getString("bPlace", "Birth Place")!!
-        userAddress = preferences.getString("num", "Number")!! + " " + preferences.getString("street", "Street Name")!! + " " + preferences.getString("zipCode", "ZipCode")!! + " " + preferences.getString("city", "City")!!
+        userAddress = preferences.getString("num", "Number")!! + " " + preferences.getString(
+            "street",
+            "Street Name"
+        )!! + " " + preferences.getString(
+            "zipCode",
+            "ZipCode"
+        )!! + " " + preferences.getString("city", "City")!!
         userCity = preferences.getString("city", "City")!!
 
         btnTrav.setOnClickListener {
@@ -111,15 +120,22 @@ class PdfActivity : AppCompatActivity() {
             checkPerm()
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createPdf(){
+    private fun createPdf() {
         //create object of Document class
         val mDoc = Document()
         //pdf file name
-        val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
+        var mFileName = "Attestation $userLn $userFn "
+        mFileName += SimpleDateFormat(
+            "yyyyMMdd_HHmmss",
+            Locale.getDefault()
+        ).format(System.currentTimeMillis())
+
         //pdf file path
-        val mFilePath = Environment.getExternalStorageDirectory().toString() + "/" + mFileName + ".pdf"
-        try{
+        val mFilePath =
+            Environment.getExternalStorageDirectory().toString() + "/" + mFileName + ".pdf"
+        try {
             //create instance of PdfWriter class
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
 
@@ -130,7 +146,8 @@ class PdfActivity : AppCompatActivity() {
             mDoc.addAuthor("$userFn $userLn")
 
             //Custom Text String
-            val attestation1 = "En application de l’article 3 du décret du 23 mars 2020 prescrivant les mesures générales nécessaires pour faire face à l’épidémie de Covid19 dans le cadre de l’état d’urgence sanitaire"
+            val attestation1 =
+                "En application de l’article 3 du décret du 23 mars 2020 prescrivant les mesures générales nécessaires pour faire face à l’épidémie de Covid19 dans le cadre de l’état d’urgence sanitaire"
             val attestation2 = "Mme/M. : $userLn $userFn\n" +
                     "Né(e) le : $userBd \n" +
                     "A : $userBdPlace \n" +
@@ -138,20 +155,20 @@ class PdfActivity : AppCompatActivity() {
 
 
             //Write Document
-            var font:Font = Font()
+            var font: Font = Font()
             font.setFamily("Arial")
             font.size = 11F
 
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy à HH:mm")
             val formatted = current.format(formatter)
-            var parag1:Paragraph = Paragraph()
+            var parag1: Paragraph = Paragraph()
             parag1.add("ATTESTATION DE DÉPLACEMENT DÉROGATOIRE")
             parag1.alignment = Element.ALIGN_CENTER
             parag1.font = font
             mDoc.add(parag1)
             mDoc.add(Chunk.NEWLINE)
-            var parag2:Paragraph = Paragraph(attestation1)
+            var parag2: Paragraph = Paragraph(attestation1)
             parag2.alignment = Element.ALIGN_CENTER
             parag2.font = font
             mDoc.add(parag2)
@@ -176,20 +193,24 @@ class PdfActivity : AppCompatActivity() {
             mDoc.add(Chunk.NEWLINE)
             mDoc.add(Paragraph("[$motifMission] Participation à des missions d’intérêt général sur demande de l’autorité administrative."))
             mDoc.add(Chunk.NEWLINE)
-            mDoc.add(Paragraph("Fait à : $userCity \n" +
-                    "Le : $formatted\n" +
-                    "Signature : $userFn $userLn"))
+            mDoc.add(
+                Paragraph(
+                    "Fait à : $userCity \n" +
+                            "Le : $formatted\n" +
+                            "Signature : $userFn $userLn"
+                )
+            )
 
             //Close Document
             mDoc.close()
 
             //show path to document
-            Toast.makeText(this,"$mFileName.pdf\n is saved to\n$mFilePath", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "$mFileName.pdf\n is saved to\n$mFilePath", Toast.LENGTH_SHORT)
+                .show()
             finish()
-        }
-        catch (e: Exception){
+        } catch (e: Exception) {
             //if anything goes wrong causing exception, get and show exception message
-            Toast.makeText(this,e.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -199,15 +220,14 @@ class PdfActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        when(requestCode){
+        when (requestCode) {
             STORAGE_CODE -> {
-                if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //permission from popup was granted, call createPdf()
                     createPdf()
-                }
-                else{
+                } else {
                     //permission from popup was denied, show error message
-                    Toast.makeText(this,"Permission denied... !", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Permission denied... !", Toast.LENGTH_SHORT).show()
                 }
             }
         }
