@@ -30,7 +30,8 @@ class HomeFragment : Fragment() {
     private lateinit var mPlayButton: Button;
     private lateinit var mAttestation: Button;
     private var user: User = User();
-    private val MA_REQUEST: Int = 187
+    private val REQUEST_QCM: Int = 187
+    private lateinit var preferences : SharedPreferences;
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -45,6 +46,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+            preferences = activity!!.getPreferences(Context.MODE_PRIVATE) as SharedPreferences
             mNameInput = view.findViewById<EditText>(R.id.activity_main_name_input);
             mPlayButton = view.findViewById<Button>(R.id.activity_main_play_btn);
             mAttestation = view.findViewById(R.id.activity_main_creerPdf)
@@ -71,8 +74,12 @@ class HomeFragment : Fragment() {
             })
 
             mPlayButton.setOnClickListener(){
-                val monActi = Intent(activity, MapsActivity::class.java)
-                startActivityForResult(monActi, MA_REQUEST)
+                user.usrLastName = mNameInput.text.toString()
+                val editor = preferences.edit()
+                editor.putString("name", user.usrLastName)
+                editor.apply()
+                val monQCM = Intent(activity, MapsActivity::class.java)
+                startActivityForResult(monQCM, REQUEST_QCM)
 
             }
         mAttestation.setOnClickListener {
