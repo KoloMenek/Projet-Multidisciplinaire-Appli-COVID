@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="45dp"
-        android:text="Information utilisation :\n \nAprès avoir appuyer sur le bouton 'Voir la carte' pour activer la carte vous devrez appuyer sur le bouton 'REMOVE LOCATION UPDATE' puis sur le bouton 'REQUEST LOCATION UPDATES'.\nCes boutons vous serviront respectivement à couper et activer la localisation en temps réel par la suite."
+        android:text="Information utilisation :\n \nAprès avoir appuyer sur le bouton 'Voir la carte' pour activer la carte vous devrez appuyer sur le bouton 'REQUEST LOCATION UPDATES'.\nLes boutons 'REMOVE LOCATION UPDATE' et 'REQUEST LOCATION UPDATES' vous serviront respectivement à couper et activer la localisation en temps réel par la suite."
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
