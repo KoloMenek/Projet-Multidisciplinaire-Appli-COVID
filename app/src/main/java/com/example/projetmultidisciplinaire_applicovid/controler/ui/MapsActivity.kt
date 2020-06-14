@@ -21,11 +21,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.projetmultidisciplinaire_applicovid.BuildConfig
 import com.example.projetmultidisciplinaire_applicovid.R
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
+import com.karumi.dexter.BuildConfig
 import java.io.IOException
 
 
@@ -365,21 +365,17 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
 
 
 
-
-
-
         //Cercle de limitation des 3km
         adresse= LatLng(loc.latitude, loc.longitude)
         val circleOptions = CircleOptions()
-            .center(adresse)
+            .center(p1)
             .radius(3000.0) // In meters
             .strokeColor(Color.BLUE)
             .fillColor(argb(50,0,0,200))
 
 // Get back the mutable Circle
         circle = mMap!!.addCircle(circleOptions)
-
-
+        
     }
 
 }
