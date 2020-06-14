@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.BuildConfig
 import java.io.IOException
+import java.lang.Math.cos
 
 
 /**
@@ -276,10 +277,6 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
             val location =
                 intent.getParcelableExtra<Location>(LocationUpdatesService.EXTRA_LOCATION)
             if (location != null) {
-                Toast.makeText(
-                    this@MapsActivity, Utils.getLocationText(location),
-                    Toast.LENGTH_SHORT
-                ).show()
                 loc =location
                 marker.remove()
                 updateUI()
@@ -320,9 +317,8 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
         private const val REQUEST_PERMISSIONS_REQUEST_CODE = 34
     }
     fun updateUI(){
-
+        val position = LatLng(loc.latitude,loc.longitude)
         if (mMap != null){
-            val position = LatLng(loc.latitude,loc.longitude)
             marker = mMap!!.addMarker(
                 MarkerOptions()
                     .position(position)
@@ -334,12 +330,22 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
             mMap!!.animateCamera(zoom)
 
         }
+        val x = (adresse.longitude - position.longitude) * cos((adresse.latitude + position.latitude)/2)
+        val y = adresse.latitude - position.latitude
+        val z = Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0))
+        val d = 1.852*60*z
+        if(d>3.0){
+            Toast.makeText(
+                this@MapsActivity, "Vous êtes hors de la zone de 3km",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        updateUI()
+
 
         var addresss: List<Address?>
         val coder = Geocoder(this)
@@ -366,7 +372,7 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
 
 
         //Cercle de limitation des 3km
-        adresse= LatLng(loc.latitude, loc.longitude)
+        adresse= p1
         val circleOptions = CircleOptions()
             .center(p1)
             .radius(3000.0) // In meters
@@ -375,7 +381,8 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
 
 // Get back the mutable Circle
         circle = mMap!!.addCircle(circleOptions)
-        
+        updateUI()
+
     }
 
 }
