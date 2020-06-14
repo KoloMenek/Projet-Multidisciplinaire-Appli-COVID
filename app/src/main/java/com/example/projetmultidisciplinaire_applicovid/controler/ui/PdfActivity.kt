@@ -233,8 +233,7 @@ class PdfActivity : AppCompatActivity() {
     //Function that creates a notification that allows the user to open the pdf file after clicking on it
     private fun createNotification(){
         //prepares the file to be opened
-        val selectedUri: Uri =
-            Uri.parse(mFilePath)
+        val selectedUri: Uri = FileProvider.getUriForFile(this,applicationContext.packageName+".provider",File(mFilePath))
         val intent = Intent(Intent.ACTION_VIEW)
         intent.setDataAndType(selectedUri, "application/pdf") // here we set correct type for PDF
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
