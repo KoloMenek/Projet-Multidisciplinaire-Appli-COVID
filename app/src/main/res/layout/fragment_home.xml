@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:text="Voir la carte"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+         />
 
     <Button
         android:id="@+id/activity_main_creerPdf"
