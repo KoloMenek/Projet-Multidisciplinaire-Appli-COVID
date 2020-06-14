@@ -54,7 +54,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
 
         val accountCreated:Boolean? = getSharedPreferences("UserData", Context.MODE_PRIVATE).getBoolean("accountCreated", false)
 
-        if(!accountCreated!!) {
+        if(accountCreated!!) {
             val preferences = getSharedPreferences("UserData", Context.MODE_PRIVATE)
             mFirstName.setText(preferences.getString("fName", "FirstName"))
             mLastName.setText(preferences.getString("lName", "LastName"))
@@ -67,6 +67,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
             mMonth = preferences.getInt("bMonth", 1)
             mDay = preferences.getInt("bDay", 1)
             mDateBtn.text = "$mDay/$mMonth/$mYear"
+            mValidateBtn.isEnabled = true
         }
 
         mDateBtn.setOnClickListener {
