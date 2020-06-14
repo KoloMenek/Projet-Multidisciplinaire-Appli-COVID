@@ -254,7 +254,7 @@ class PdfActivity : AppCompatActivity() {
                 .setSmallIcon(R.drawable.ic_baseline_arrow_downward_24)
                 .setContentIntent(pendingIntent)
         }else{
-            builder = Notification.Builder(this, channelId)
+            builder = Notification.Builder(this)
                 .setContentTitle("Création de l'attestation")
                 .setContentText("Cliquez pour ouvrir le fichier PDF")
                 .setSmallIcon(R.drawable.ic_baseline_arrow_downward_24)
