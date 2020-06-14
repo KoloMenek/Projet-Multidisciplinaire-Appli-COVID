@@ -43,5 +43,20 @@
         android:layout_marginTop="50dp"
         android:text="Faire une attestation de sortie" />
 
+    <TextView
+        android:id="@+id/activity_main_greeting_txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="45dp"
+        android:text="Information utilisation :\n \nAprès avoir appuyer sur le bouton 'Voir la carte' pour activer la carte vous devrez appuyer sur le bouton 'REMOVE LOCATION UPDATE' puis sur le bouton 'REQUEST LOCATION UPDATES'.\nCes boutons vous permettrons respectivement à couper et activer la localisation en temps réel par la suite."
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.107" />
+
 
 </LinearLayout>
