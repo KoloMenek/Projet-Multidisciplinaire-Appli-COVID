@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.projetmultidisciplinaire_applicovid.R
 
 
-
 class ReportBugFragment : Fragment() {
 
     private lateinit var reportBugViewModel: ReportBugViewModel

@@ -1,82 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.projetmultidisciplinaire_applicovid.controler.ui.home.HomeFragment"
     android:layout_margin="25dp"
-    >
+    android:orientation="vertical"
+    tools:context="com.example.projetmultidisciplinaire_applicovid.controler.ui.home.HomeFragment">
 
 
     <TextView
 
         android:id="@+id/activity_main_greeting_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:paddingTop="45dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bonjour !"
-        android:textStyle="bold"
+        android:text=""
         android:textSize="20sp"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.107" />
-
-    <EditText
-        android:layout_marginTop="50dp"
-        android:id="@+id/activity_main_name_input"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Veuillez entrez votre nom"
-
-        />
-    <TextView
-
-        android:id="@+id/activity_main_greeting_txt2"
-        android:paddingTop="20dp"
-        android:textSize="15sp"
         android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quelle distance souhaitez-vous appliquer ?"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.107" />
 
-    <EditText
-        android:layout_marginTop="20dp"
-        android:id="@+id/activity_main_distance_input"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Veuillez entrer la distance que vous souhaitez utiliser"
-
-        />
 
     <Button
-        android:layout_marginTop="50dp"
-        android:enabled="false"
         android:id="@+id/activity_main_play_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Entrer"
+        android:layout_marginTop="50dp"
+        android:text="Voir la carte"
         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
     <Button
+        android:id="@+id/activity_main_creerPdf"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_gravity="center"
-        android:text="Faire une attestation de sortie"
-        android:id="@+id/activity_main_creerPdf"
-        />
+        android:layout_marginTop="50dp"
+        android:text="Faire une attestation de sortie" />
 
 
 </LinearLayout>

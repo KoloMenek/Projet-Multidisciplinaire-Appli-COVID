@@ -64,15 +64,15 @@ import java.io.IOException
  * activity from the notification. The user can also remove location updates directly from the
  * notification. This dismisses the notification and stops the service.
  */
-class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener, OnMapReadyCallback {
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private var myReceiver: MyReceiver? = null
     private var mMap: GoogleMap? = null
-    private lateinit var loc:Location
-    private lateinit var marker : Marker
-    private lateinit var zoom:CameraUpdate
-    private lateinit var center:CameraUpdate
-    private lateinit var adresse:LatLng
+    private lateinit var loc: Location
+    private lateinit var marker: Marker
+    private lateinit var zoom: CameraUpdate
+    private lateinit var center: CameraUpdate
+    private lateinit var adresse: LatLng
     private lateinit var circle: Circle
 
     // A reference to the service used to get location updates.
@@ -88,7 +88,8 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
     // Monitors the state of the connection to the service.
     private val mServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            val binder: LocationUpdatesService.LocalBinder = service as LocationUpdatesService.LocalBinder
+            val binder: LocationUpdatesService.LocalBinder =
+                service as LocationUpdatesService.LocalBinder
             mService = binder.getService()
             mBound = true
         }
@@ -136,7 +137,6 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
 
         // Restore the state of the buttons when the activity (re)launches.
         setButtonsState(Utils.requestingLocationUpdates(this))
-
 
 
         // Bind to the service. If the service is in foreground mode, this signals to the service
@@ -280,7 +280,7 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
                     this@MapsActivity, Utils.getLocationText(location),
                     Toast.LENGTH_SHORT
                 ).show()
-                loc =location
+                loc = location
                 marker.remove()
                 updateUI()
 
@@ -319,16 +319,17 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
         // Used in checking for runtime permissions.
         private const val REQUEST_PERMISSIONS_REQUEST_CODE = 34
     }
-    fun updateUI(){
 
-        if (mMap != null){
-            val position = LatLng(loc.latitude,loc.longitude)
+    fun updateUI() {
+
+        if (mMap != null) {
+            val position = LatLng(loc.latitude, loc.longitude)
             marker = mMap!!.addMarker(
                 MarkerOptions()
                     .position(position)
                     .title("Ma position")
             )
-            center =CameraUpdateFactory.newLatLng(position)
+            center = CameraUpdateFactory.newLatLng(position)
             zoom = CameraUpdateFactory.zoomTo(16F)
             mMap!!.moveCamera(center)
             mMap!!.animateCamera(zoom)
@@ -345,36 +346,38 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
         val coder = Geocoder(this)
         var p1: LatLng? = null
 
-        var num  = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("num", "errornum")
-        var street = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("street", "errorstreet")
-        var city = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("city", "errorcity")
-        var zipCode = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("zipCode", "errorZIP")
-        var adress:String = "$num,$street,$zipCode,$city"
+        var num =
+            getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("num", "errornum")
+        var street = getSharedPreferences("UserData", Context.MODE_PRIVATE).getString(
+            "street",
+            "errorstreet"
+        )
+        var city =
+            getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("city", "errorcity")
+        var zipCode =
+            getSharedPreferences("UserData", Context.MODE_PRIVATE).getString("zipCode", "errorZIP")
+        var adress: String = "$num,$street,$zipCode,$city"
 
         System.out.println(adress)
 
-            // May throw an IOException
-            addresss = coder.getFromLocationName(adress, 5);
-            if (addresss == null) {
-                System.out.println("Bruh adresss = null")
-            }
-            val location = addresss[0]
-            p1 = LatLng(location!!.latitude, location!!.longitude)
-            var latlngadresse = "$p1"
-            System.out.println(latlngadresse)
-
-
-
-
+        // May throw an IOException
+        addresss = coder.getFromLocationName(adress, 5);
+        if (addresss == null) {
+            System.out.println("Bruh adresss = null")
+        }
+        val location = addresss[0]
+        p1 = LatLng(location!!.latitude, location!!.longitude)
+        var latlngadresse = "$p1"
+        System.out.println(latlngadresse)
 
 
         //Cercle de limitation des 3km
-        adresse= LatLng(loc.latitude, loc.longitude)
+        adresse = LatLng(loc.latitude, loc.longitude)
         val circleOptions = CircleOptions()
             .center(adresse)
             .radius(3000.0) // In meters
             .strokeColor(Color.BLUE)
-            .fillColor(argb(50,0,0,200))
+            .fillColor(argb(50, 0, 0, 200))
 
 // Get back the mutable Circle
         circle = mMap!!.addCircle(circleOptions)
