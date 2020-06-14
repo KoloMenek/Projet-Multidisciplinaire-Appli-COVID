@@ -24,13 +24,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        //Checks if account was already created
         val accountCreated: Boolean? =
             getSharedPreferences("UserData", Context.MODE_PRIVATE).getBoolean(
                 "accountCreated",
                 false
             )
-
+        //if account wasn't created, the user is redirected to the account creation activity where he enters his data.
         if (!accountCreated!!) {
             val newActivity = Intent(this@MainActivity, CreateAccountActivity::class.java)
             startActivity(newActivity)

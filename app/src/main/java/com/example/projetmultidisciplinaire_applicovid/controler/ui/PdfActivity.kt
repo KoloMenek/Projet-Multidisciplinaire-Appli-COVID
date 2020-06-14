@@ -1,20 +1,28 @@
 package com.example.projetmultidisciplinaire_applicovid.controler.ui
 
 import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import com.example.projetmultidisciplinaire_applicovid.R
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfWriter
+import java.io.File
 import java.io.FileOutputStream
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -42,7 +50,14 @@ class PdfActivity : AppCompatActivity() {
     private var motifQuot: String = " "
     private var motifJudi: String = " "
     private var motifMission: String = " "
+    private lateinit var notificationManager: NotificationManager
+    private lateinit var notificationChannel: NotificationChannel
+    private lateinit var builder: Notification.Builder
+    private val channelId = "com.example.projetmultidisciplinaire_applicovid.controler.ui"
+    private val description = "File created notification"
+    private var mFilePath:String = ""
 
+//Checks if the application has the needed permissions for creating a pdf file (Write / Read)
     @RequiresApi(Build.VERSION_CODES.O)
     private fun checkPerm() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
@@ -75,8 +90,10 @@ class PdfActivity : AppCompatActivity() {
         btnJudi = findViewById(R.id.motifJudiciaire)
         btnMission = findViewById(R.id.motifMission)
 
-        val preferences = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+        val preferences = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+//Gets user data from sharedPreferences
         userFn = preferences.getString("fName", "FirstName")!!
         userLn = preferences.getString("lName", "LastName")!!
         userBd = preferences.getInt("bDay", 1).toString()!! + "/" + preferences.getInt("bMonth", 1)
@@ -126,14 +143,14 @@ class PdfActivity : AppCompatActivity() {
         //create object of Document class
         val mDoc = Document()
         //pdf file name
-        var mFileName = "Attestation $userLn $userFn "
+        var mFileName = "Attestation_" + userLn + "_" + userFn + "_"
         mFileName += SimpleDateFormat(
             "yyyyMMdd_HHmmss",
             Locale.getDefault()
         ).format(System.currentTimeMillis())
 
         //pdf file path
-        val mFilePath =
+            mFilePath =
             Environment.getExternalStorageDirectory().toString() + "/" + mFileName + ".pdf"
         try {
             //create instance of PdfWriter class
@@ -205,16 +222,50 @@ class PdfActivity : AppCompatActivity() {
             mDoc.close()
 
             //show path to document
-            Toast.makeText(this, "$mFileName.pdf\n is saved to\n$mFilePath", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, "$mFileName.pdf\n is saved to\n$mFilePath", Toast.LENGTH_SHORT).show()
+            createNotification()
             finish()
         } catch (e: Exception) {
             //if anything goes wrong causing exception, get and show exception message
             Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
     }
+    //Function that creates a notification that allows the user to open the pdf file after clicking on it
+    private fun createNotification(){
+        //prepares the file to be opened
+        val selectedUri: Uri =
+            Uri.parse(mFilePath)
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(selectedUri, "application/pdf") // here we set correct type for PDF
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        //creates the notification
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O) {
+            notificationChannel =
+                NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(true)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = Notification.Builder(this, channelId)
+                .setContentTitle("Création de l'attestation")
+                .setContentText("Cliquez pour ouvrir le fichier PDF")
+                .setSmallIcon(R.drawable.ic_baseline_arrow_downward_24)
+                .setContentIntent(pendingIntent)
+        }else{
+            builder = Notification.Builder(this, channelId)
+                .setContentTitle("Création de l'attestation")
+                .setContentText("Cliquez pour ouvrir le fichier PDF")
+                .setSmallIcon(R.drawable.ic_baseline_arrow_downward_24)
+                .setContentIntent(pendingIntent)
+        }
+        notificationManager.notify(1234,builder.build())
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    //checks if permissions is granted if not there is a toast
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

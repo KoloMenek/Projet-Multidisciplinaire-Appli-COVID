@@ -58,7 +58,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
                 "accountCreated",
                 false
             )
-
+        //if account was already created, prepares all the info with the info the user has provided
         if (accountCreated!!) {
             val preferences = getSharedPreferences("UserData", Context.MODE_PRIVATE)
             mFirstName.setText(preferences.getString("fName", "FirstName"))
@@ -74,7 +74,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
             mDateBtn.text = "$mDay/$mMonth/$mYear"
             mValidateBtn.isEnabled = true
         }
-
+        //opens DatePickerDialog for the user to pick birthday
         mDateBtn.setOnClickListener {
             var cal: Calendar = Calendar.getInstance()
             var year = cal.get(Calendar.YEAR)
@@ -105,7 +105,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
         for (e: EditText in editList) {
             e.addTextChangedListener(this)
         }
-
+        //if all fields are completed, the user can save the data and exit this activity
         mValidateBtn.setOnClickListener {
             val preferences = getSharedPreferences("UserData", Context.MODE_PRIVATE)
             val editor = preferences.edit()
@@ -137,7 +137,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
     }
-
+    //checks if the user completed the EditText and the DatePickerDialog
     @RequiresApi(Build.VERSION_CODES.N)
     private fun checkEmpty(): Boolean {
         var isEmpty: Boolean = false
@@ -150,7 +150,7 @@ class CreateAccountActivity : AppCompatActivity(), TextWatcher {
         }
         return isEmpty
     }
-
+    //If the user completed the fields, it allows the user to click on the button. Otherwise, an error text shows.
     @RequiresApi(Build.VERSION_CODES.N)
     private fun checkBtn() {
         mValidateBtn.isEnabled = !checkEmpty()
