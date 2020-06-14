@@ -126,10 +126,12 @@ class PdfActivity : AppCompatActivity() {
         //create object of Document class
         val mDoc = Document()
         //pdf file name
-        val mFileName = SimpleDateFormat(
+        var mFileName = "Attestation $userLn $userFn "
+        mFileName += SimpleDateFormat(
             "yyyyMMdd_HHmmss",
             Locale.getDefault()
         ).format(System.currentTimeMillis())
+
         //pdf file path
         val mFilePath =
             Environment.getExternalStorageDirectory().toString() + "/" + mFileName + ".pdf"
