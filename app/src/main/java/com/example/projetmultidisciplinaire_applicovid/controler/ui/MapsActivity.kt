@@ -20,7 +20,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.graphics.red
 import androidx.core.graphics.toColor
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.projetmultidisciplinaire_applicovid.R
@@ -335,13 +334,14 @@ class MapsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener,OnMap
         val x = (adresse.longitude - position.longitude) * cos((adresse.latitude + position.latitude)/2)
         val y = adresse.latitude - position.latitude
         val z = Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0))
-        val d = 1609.34*60*z
+        val d = 2.05*60*z
         if(d>3.0){
             Toast.makeText(
                 this@MapsActivity, "Vous êtes hors de la zone de 3km",
                 Toast.LENGTH_SHORT
             ).show()
         }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
